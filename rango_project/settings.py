@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import key_file
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,9 +24,24 @@ MEDIA_DIR = os.path.join(BASE_DIR,'media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+def get_secret_key(var_name):
+    try:
+        return key_file.SECRET_KEY
+    except KeyError:
+        error_msg = "The variable %s is not available" % var_name
+        raise ImproperlyConfigured(error_msg)
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret_key('SECRET_KEY')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0*nlckm08+-9#-mfra4nbg^i(6b@t4a+be4ahnm(aq(v3)&h45'
+#SECRET_KEY = '0*nlckm08+-9#-mfra4nbg^i(6b@t4a+be4ahnm(aq(v3)&h45'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
