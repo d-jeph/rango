@@ -8,7 +8,14 @@ Home
 {% endblock %}
 
     {% block body_block %}
-    <h1>Rango says...</h1>
+    <h2>Rango says...
+    {% if user.is_authenticated %}
+    howdy {{ user.username }}!
+    {% else %}
+    hey there partner!
+    {% endif %}
+    </h2>
+
     <div><strong>Most Liked Categories</strong></div>
     <div>
       {% if categories %}
